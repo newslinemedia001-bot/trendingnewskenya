@@ -1,0 +1,35 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Public archive: only published stories are readable. Editors write via
+    // the Firebase console, the Admin SDK or a future CMS — never the browser.
+    match /articles/{slug} {
+      allow read: if resource.data.status == 'published';
+      allow write: if false;
+    }
+
+    // Byline records power the author pages. Nothing private lives here.
+    match /authors/{slug} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Newsletter opt-ins are create-only from the site. No one can read,
+    // change or delete the list from a client.
+    match /newsletter_signups/{signupId} {
+      allow create: if request.resource.data.keys().hasOnly(['email', 'source', 'createdAt'])
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 320
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+        && request.resource.data.source is string
+        && request.resource.data.source.size() <= 40;
+      allow read, update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

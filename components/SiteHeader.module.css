@@ -1,0 +1,318 @@
+.header {
+  position: relative;
+  z-index: 70;
+  background: var(--paper);
+}
+
+/* ---------- utility bar ---------- */
+
+.utility {
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.utilityInner {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.dateline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.dateline time {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--rule);
+  flex: none;
+}
+
+.edition {
+  color: var(--ink);
+}
+
+.utilityNav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.utilityNav a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+  padding-top: clamp(16px, 2.4vw, 28px);
+  padding-bottom: clamp(14px, 2vw, 24px);
+  border-bottom: 1px solid var(--ink);
+}
+
+.mastSide {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.mastSub {
+  font-family: var(--serif);
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.mastRight {
+  text-align: right;
+}
+
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.wordmark:hover {
+  text-decoration: none;
+}
+
+.wordTop {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(30px, 5vw, 64px);
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.wordBottom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 7px;
+  width: 100%;
+}
+
+.wordKenya {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.wordRule {
+  flex: 1;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.7;
+}
+
+/* ---------- section nav ---------- */
+
+.navBar {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink);
+  box-shadow: 0 1px 0 rgba(20, 19, 18, 0.04);
+}
+
+.navInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(14px, 2vw, 24px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  min-width: 0;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 0 12px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: color 0.15s var(--ease);
+}
+
+.navLink:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.navActive {
+  color: var(--ink);
+}
+
+.navActive::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+}
+
+.briefing {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding-left: 20px;
+  border-left: 1px solid var(--rule);
+  white-space: nowrap;
+}
+
+.briefing:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1000px) {
+  .mastSide {
+    display: none;
+  }
+
+  .masthead {
+    grid-template-columns: 1fr;
+    padding-top: 18px;
+    padding-bottom: 16px;
+  }
+
+  .briefing {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .utilityInner {
+    height: 32px;
+  }
+
+  .dateline time,
+  .edition {
+    display: none;
+  }
+
+  .dateline::before {
+    content: 'Nairobi, Kenya';
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .dateline .dot {
+    display: none;
+  }
+
+  .utilityNav {
+    gap: 14px;
+  }
+
+  .utilityNav a:nth-child(1),
+  .utilityNav a:nth-child(2) {
+    display: none;
+  }
+
+  .wordTop {
+    font-size: clamp(28px, 9vw, 40px);
+  }
+
+  .wordBottom {
+    margin-top: 5px;
+  }
+
+  .wordKenya {
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-indent: 0.45em;
+  }
+
+  .nav {
+    gap: 16px;
+    margin-right: -4px;
+    padding-right: 12px;
+  }
+
+  .navLink {
+    padding: 12px 0 11px;
+    font-size: 10.5px;
+  }
+}

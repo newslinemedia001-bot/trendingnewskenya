@@ -1,0 +1,26 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+
+.env
+.env.local
+.env*.local
+!.env.example
+
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+firebase-debug.log
+firestore-debug.log
+serviceAccount*.json
+*-firebase-adminsdk-*.json
+
+_source/
+
+
+# Keys downloaded from the Firebase console live here and nowhere else.
+secrets/
