@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { siteUrl } from '@/lib/site'
 import styles from '@/app/inner.module.css'
 
 export const metadata = {
@@ -21,17 +22,17 @@ export default function AboutPage() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Trending News Kenya',
-    url: 'https://trendingnewskenya.co.ke',
+    url: siteUrl(),
     description:
       'An independent digital newspaper in Nairobi covering Kenyan politics, business, technology, sport, entertainment, Africa and the world.',
-    logo: 'https://trendingnewskenya.co.ke/logo.png',
+    logo: `${siteUrl()}/logo.png`,
   }
 
   const breadcrumbLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://trendingnewskenya.co.ke' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl() },
       { '@type': 'ListItem', position: 2, name: 'About' },
     ],
   }

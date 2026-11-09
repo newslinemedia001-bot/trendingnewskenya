@@ -1,4 +1,5 @@
 import { getAllArticles, getAllSections, getAuthors } from '@/lib/content'
+import { siteUrl } from '@/lib/site'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
@@ -11,7 +12,7 @@ const PRIORITY = {
 }
 
 export async function GET() {
-  const base = 'https://trendingnewskenya.co.ke'
+  const base = siteUrl()
   const now = new Date()
 
   // Static pages

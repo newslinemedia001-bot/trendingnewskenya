@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { siteUrl } from '@/lib/site'
 import styles from '@/app/inner.module.css'
 
 export const metadata = {
@@ -19,7 +20,7 @@ export default function ContactPage() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Trending News Kenya',
-    url: 'https://trendingnewskenya.co.ke',
+    url: siteUrl(),
     email: 'mailto:editor@trendingnewskenya.co.ke',
   }
 
@@ -27,7 +28,7 @@ export default function ContactPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://trendingnewskenya.co.ke' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl() },
       { '@type': 'ListItem', position: 2, name: 'Contact' },
     ],
   }
