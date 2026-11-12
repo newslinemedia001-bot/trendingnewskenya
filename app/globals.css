@@ -1,32 +1,40 @@
 /* ============================================================
    Trending News Kenya — design system
-   A broadsheet palette: ink, newsprint, hairlines, one red.
+   Clean newsroom white, ink black, one vivid red.
+   Bold serif headlines, soft-grey surfaces, rounded cards.
    ============================================================ */
 
 :root {
   color-scheme: light;
 
-  --ink: #141312;
-  --ink-soft: #3a3733;
-  --muted: #6d675e;
-  --faint: #96908a;
+  --ink: #101014;
+  --ink-soft: #2a2a32;
+  --muted: #5f6069;
+  --faint: #8f9099;
 
   --paper: #ffffff;
-  --paper-2: #f7f4ee;
-  --paper-3: #efeae0;
-  --black: #0a0a0a;
+  --paper-2: #f4f5f8;
+  --paper-3: #e9ebf0;
+  --black: #0a0a0d;
 
-  --rule: #d5cfc4;
-  --rule-soft: #e8e3d9;
-  --rule-strong: #141312;
+  --rule: #e3e5ea;
+  --rule-soft: #eef0f4;
+  --rule-strong: #101014;
 
-  --accent: #c4161c;
-  --accent-dark: #9c1015;
-  --green: #0b6b3f;
+  --accent: #e11d2e;
+  --accent-dark: #bd1222;
+  --accent-soft: #fdecee;
+  --green: #0f8a4d;
 
-  --serif: var(--font-serif), 'Iowan Old Style', Georgia, 'Times New Roman', serif;
-  --display: var(--font-display), 'Bodoni MT', Didot, Georgia, serif;
+  --serif: var(--font-serif), Georgia, 'Times New Roman', serif;
+  --display: var(--font-serif), Georgia, 'Times New Roman', serif;
   --sans: var(--font-sans), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 2px 8px rgba(16, 16, 20, 0.06);
+  --shadow: 0 12px 32px rgba(16, 16, 20, 0.1);
 
   --max: 1320px;
   --gutter: clamp(16px, 3.2vw, 30px);
@@ -51,7 +59,7 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -206,30 +214,38 @@ blockquote {
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--rule);
-  background: transparent;
-  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  padding: 6px 13px;
   font-family: var(--sans);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-soft);
   transition: border-color 0.15s var(--ease), color 0.15s var(--ease), background 0.15s var(--ease);
 }
 
 a.tag:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-  background: var(--paper-2);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
   text-decoration: none;
 }
 
 .tagAccent {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: transparent;
+  background: var(--accent);
+  color: #fff;
 }
 
-/* Red flag accent used for "Breaking" and live indicators */
+a.tagAccent:hover {
+  background: var(--accent-dark);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Red dot used for "Breaking" and live indicators */
 .liveDot {
   width: 6px;
   height: 6px;
@@ -248,24 +264,28 @@ a.tag:hover {
   justify-content: center;
   gap: 8px;
   min-height: 42px;
-  padding: 9px 18px;
+  padding: 9px 20px;
   border: 1px solid var(--ink);
-  border-radius: 2px;
+  border-radius: var(--radius-pill);
   background: var(--ink);
   color: #fff;
   font-family: var(--sans);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+  transition: background 0.15s var(--ease), border-color 0.15s var(--ease), transform 0.15s var(--ease);
 }
 
 .btn:hover {
   background: var(--accent);
   border-color: var(--accent);
   text-decoration: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
 }
 
 .btn:disabled {
@@ -296,15 +316,15 @@ a.tag:hover {
 
 .btnSmall {
   min-height: 34px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   font-size: 11px;
 }
 
 .input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 16px;
   border: 1px solid var(--rule);
-  border-radius: 2px;
+  border-radius: var(--radius-pill);
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
@@ -318,7 +338,7 @@ a.tag:hover {
 .input:focus {
   border-color: var(--ink);
   outline: none;
-  box-shadow: 0 0 0 1px var(--ink);
+  box-shadow: 0 0 0 3px rgba(16, 16, 20, 0.08);
 }
 
 .fieldLabel {
@@ -360,10 +380,10 @@ a.tag:hover {
 
 .prose h2 {
   font-family: var(--display);
-  font-weight: 600;
-  font-size: 28px;
+  font-weight: 700;
+  font-size: 29px;
   line-height: 1.15;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   color: var(--ink);
   margin: 36px 0 12px;
 }
@@ -415,9 +435,9 @@ a.tag:hover {
    ============================================================ */
 
 .pageHeader {
-  padding: 18px 0 26px;
-  border-bottom: 2px solid var(--ink);
+  padding: 22px 0 28px;
   margin-bottom: 30px;
+  border-bottom: 1px solid var(--rule);
 }
 
 .pageHeaderKicker {
@@ -436,9 +456,9 @@ a.tag:hover {
 .pageTitle {
   font-family: var(--display);
   font-size: clamp(34px, 5vw, 58px);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  line-height: 1.03;
+  letter-spacing: -0.025em;
   color: var(--ink);
 }
 

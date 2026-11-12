@@ -11,6 +11,8 @@ const nextConfig = {
       // Older stories may still point at Firebase Storage or a Google CDN.
       { protocol: 'https', hostname: 'firebasestorage.googleapis.com' },
       { protocol: 'https', hostname: '**.googleusercontent.com' },
+      // Articles can be filed with an image hosted by any publisher.
+      { protocol: 'https', hostname: '**' },
     ],
   },
 }

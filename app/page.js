@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { buildFrontPage } from '@/lib/frontpage'
-import { SITE_NAME, sectionKicker } from '@/lib/site'
+import { articleImageUrl, getFeaturedArticle } from '@/lib/content'
+import { SITE_NAME, sectionKicker, siteUrl } from '@/lib/site'
 import BreakingBar from '@/components/BreakingBar'
 import StoryCard from '@/components/StoryCard'
 import SectionHeader from '@/components/SectionHeader'
@@ -9,22 +10,42 @@ import MostRead from '@/components/MostRead'
 import NewsletterBand from '@/components/NewsletterBand'
 import styles from './page.module.css'
 
-export const revalidate = 60
+// Render per request so opening the site always runs a fresh wire sync.
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 
-export const metadata = {
-  title: `${SITE_NAME} — Kenya news, politics, business and sport`,
-  description:
-    'Breaking news and analysis from Kenya, Africa and the world. Politics, business, technology, sport, culture and opinion, reported from Nairobi by Trending News Kenya.',
-  alternates: {
-    canonical: '/',
-    types: { 'application/rss+xml': '/feed.xml' },
-  },
-  openGraph: {
-    url: '/',
-    title: `${SITE_NAME} — Kenya news, politics, business and sport`,
-    description:
-      'Breaking news and analysis from Kenya, Africa and the world, reported from Nairobi.',
-  },
+export async function generateMetadata() {
+  const lead = await getFeaturedArticle()
+  const base = siteUrl()
+  const title = lead ? lead.title : `${SITE_NAME} — Kenya news, politics, business and sport`
+  const description = lead
+    ? lead.dek || `${lead.title} — ${SITE_NAME}`
+    : 'Breaking news and analysis from Kenya, Africa and the world. Politics, business, technology, sport, culture and opinion, reported from Nairobi by Trending News Kenya.'
+  const image = lead ? articleImageUrl(lead) : `${base}/og-default.png`
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: '/',
+      types: { 'application/rss+xml': '/feed.xml' },
+    },
+    openGraph: {
+      url: '/',
+      title,
+      description,
+      siteName: SITE_NAME,
+      images: image
+        ? [{ url: image, width: 1600, height: 900, alt: lead?.title || SITE_NAME }]
+        : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: image ? [image] : [],
+    },
+  }
 }
 
 function OpinionItem({ article }) {

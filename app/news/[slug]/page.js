@@ -86,6 +86,11 @@ export default async function ArticlePage({ params }) {
   const sectionHref = `/section/${article.section}`
   const moreInSection = sectionMore.filter((a) => a.slug !== article.slug).slice(0, 4)
   const minutes = readingTime(article.body)
+  const wordCount = String(article.body || '')
+    .replace(/<[^>]*>/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length
   const updated =
     article.updatedAt && article.updatedAt !== article.publishedAt ? article.updatedAt : null
   const initials = (article.wire ? article.source : article.author.name)
@@ -108,6 +113,13 @@ export default async function ArticlePage({ params }) {
     keywords: (article.tags || []).join(', '),
     inLanguage: 'en-KE',
     isAccessibleForFree: true,
+    url,
+    isPartOf: { '@id': `${siteUrl()}/#website` },
+    wordCount,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1'],
+    },
     author: article.wire
       ? { '@type': 'Organization', name: article.source, url: article.sourceUrl || undefined }
       : {

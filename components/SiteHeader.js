@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { datelineLong, todayKey } from '@/lib/site'
 import NavLinks from './NavLinks'
@@ -35,23 +36,29 @@ export default function SiteHeader() {
 
       <div className={`container ${styles.masthead}`}>
         <p className={styles.mastSide}>
-          <span>Independent</span>
-          <span className={styles.mastSub}>Kenyan journalism</span>
+          <span className={styles.liveBadge}>
+            <span className={`liveDot ${styles.liveDot}`} aria-hidden="true" />
+            Live
+          </span>
+          <span className={styles.mastSub}>Nairobi, Kenya</span>
         </p>
 
         <Link href="/" className={styles.wordmark} aria-label="Trending News Kenya — home">
-          <span className={styles.wordTop}>Trending News</span>
-          <span className={styles.wordBottom}>
-            <span className={styles.wordRule} aria-hidden="true" />
-            <span className={styles.wordKenya}>Kenya</span>
-            <span className={styles.wordRule} aria-hidden="true" />
-          </span>
+          <Image
+            src="/brand/logo-light.png"
+            alt=""
+            width={1307}
+            height={362}
+            priority
+            className={styles.logoImg}
+          />
         </Link>
 
-        <p className={`${styles.mastSide} ${styles.mastRight}`}>
-          <span>Nairobi</span>
-          <span className={styles.mastSub}>Africa &amp; the world</span>
-        </p>
+        <div className={styles.mastRight}>
+          <Link href="/search" className={styles.search}>
+            Search
+          </Link>
+        </div>
       </div>
 
       <div className={styles.navBar}>

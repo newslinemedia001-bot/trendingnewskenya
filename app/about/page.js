@@ -17,15 +17,49 @@ export const metadata = {
   },
 }
 
+const FAQ = [
+  {
+    q: 'Who publishes Trending News Kenya?',
+    a: 'Trending News Kenya is an independent digital newspaper based in Nairobi. It is not owned by a political party, a corporation or a government.',
+  },
+  {
+    q: 'What does Trending News Kenya cover?',
+    a: 'Kenyan politics, business, technology, sport, entertainment, Africa and world news, reported from Nairobi and across Kenya.',
+  },
+  {
+    q: 'Where is Trending News Kenya based?',
+    a: 'In Nairobi, Kenya. Its journalists and editors also report from Mombasa, Kisumu and the coast.',
+  },
+  {
+    q: 'How can I contact the newsroom?',
+    a: 'Email editor@trendingnewskenya.co.ke for editorial enquiries, corrections, press and partnerships.',
+  },
+  {
+    q: 'How does Trending News Kenya handle corrections?',
+    a: 'Corrections are published promptly. The standards and corrections policy are set out on this page.',
+  },
+]
+
 export default function AboutPage() {
-  const sectionLd = {
+  const pageLd = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Trending News Kenya',
-    url: siteUrl(),
+    '@type': 'AboutPage',
+    name: 'About Trending News Kenya',
+    url: `${siteUrl()}/about`,
     description:
-      'An independent digital newspaper in Nairobi covering Kenyan politics, business, technology, sport, entertainment, Africa and the world.',
-    logo: `${siteUrl()}/logo.png`,
+      'Who we are, what we stand for, and the standards that guide our reporting from Nairobi to the world.',
+    isPartOf: { '@id': `${siteUrl()}/#website` },
+    about: { '@id': `${siteUrl()}/#organization` },
+  }
+
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
   }
 
   const breadcrumbLd = {
@@ -41,7 +75,11 @@ export default function AboutPage() {
     <div className="container page">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(sectionLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
       <script
         type="application/ld+json"
@@ -105,6 +143,14 @@ export default function AboutPage() {
 
         <h2>Founding year</h2>
         <p>2026</p>
+
+        <h2>Frequently asked questions</h2>
+        {FAQ.map(({ q, a }) => (
+          <div key={q}>
+            <h3>{q}</h3>
+            <p>{a}</p>
+          </div>
+        ))}
       </main>
     </div>
   )

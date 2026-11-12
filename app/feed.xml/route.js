@@ -1,7 +1,11 @@
-import { getAllArticles, MIN_PARAGRAPHS, paragraphCount } from '@/lib/content'
+import { after } from 'next/server'
+import { articleImageUrl, getAllArticles } from '@/lib/content'
+import { syncWire } from '@/lib/wire-sync'
 import { siteUrl } from '@/lib/site'
 
-export const revalidate = 300
+export const dynamic = 'force-dynamic'
+// Supabase reads go through fetch: never reuse a cached response.
+export const fetchCache = 'force-no-store'
 
 function esc(value) {
   return String(value ?? '')
@@ -19,9 +23,12 @@ function dateOf(value) {
 
 export async function GET() {
   const base = siteUrl()
+  // Refresh from the publisher feeds after sending, so a reader that polls
+  // only the feed still gets new headlines minutes after they land.
+  after(() => syncWire().catch(() => {}))
+  // Every published story goes in the feed, exactly as it appears on the site:
+  // no paragraph filter, so short wire items are not held back.
   const articles = (await getAllArticles())
-    // One-sentence wire items never make it to public feeds.
-    .filter((article) => paragraphCount(article.body) >= MIN_PARAGRAPHS)
     .sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0))
     .slice(0, 30)
 
@@ -32,9 +39,9 @@ export async function GET() {
       const credit = article.wire
         ? `\n      <dc:source>${esc(article.source)}</dc:source>`
         : ''
-      const image = article.image?.src
-        ? `\n      <media:content url="${esc(article.image.src)}" type="image/jpeg" />`
-        : ''
+      // Every article has an image, and feed readers need an absolute URL.
+      const imageSrc = articleImageUrl(article)
+      const image = `\n      <media:content url="${esc(imageSrc)}" type="${/\.png$/i.test(imageSrc) ? 'image/png' : 'image/jpeg'}" />`
 
       return `
     <item>
@@ -56,6 +63,7 @@ export async function GET() {
     <description>The latest published stories from Trending News Kenya, including credited wire copy.</description>
     <language>en_KE</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <ttl>5</ttl>
     <atom:link xmlns:atom="http://www.w3.org/2005/Atom" href="${esc(base)}/feed.xml" rel="self" type="application/rss+xml" />${items}
   </channel>
 </rss>`
@@ -63,6 +71,11 @@ export async function GET() {
   return new Response(feed, {
     headers: {
       'Content-Type': 'application/rss+xml; charset=utf-8',
+      // Readers and the CDN must always ask the server for the current set:
+      // a cached copy is why the feed kept showing yesterday's stories.
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+      'CDN-Cache-Control': 'no-store',
+      'Netlify-CDN-Cache-Control': 'no-store',
     },
   })
 }

@@ -19,6 +19,12 @@ const ALLOWED_HOSTS = [
   'bbc.com',
   'aljazeera.com',
   'aljazeera.net',
+  'kbc.co.ke',
+  'capitalfm.africa',
+  'kahawatungu.com',
+  'nairobiwire.com',
+  'kenyanews.go.ke',
+  'nipashebiz.co.ke',
 ]
 
 const REFERERS = [
@@ -78,7 +84,7 @@ export async function GET(request) {
       },
       redirect: 'follow',
       cache: 'no-store',
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(30000),
     })
 
     if (!upstream.ok) {

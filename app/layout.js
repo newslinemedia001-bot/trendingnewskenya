@@ -1,16 +1,8 @@
 import localFont from 'next/font/local'
 import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
-import { SITE_NAME, SITE_DESCRIPTION, siteUrl } from '@/lib/site'
+import { SITE_NAME, SITE_DESCRIPTION, SITE_TAGLINE, siteUrl } from '@/lib/site'
 import { getFeaturedArticle, articleImageUrl } from '@/lib/content'
-
-const display = localFont({
-  src: './fonts/bodoni-moda.woff2',
-  variable: '--font-display',
-  weight: '400 900',
-  display: 'swap',
-  fallback: ['Bodoni MT', 'Didot', 'Georgia', 'serif'],
-})
 
 const serif = localFont({
   src: [
@@ -124,6 +116,17 @@ const organizationLd = {
           availableLanguage: ['en'],
         },
       ],
+      slogan: SITE_TAGLINE,
+      areaServed: { '@type': 'Country', name: 'Kenya' },
+      knowsAbout: [
+        'Kenya politics',
+        'Kenyan business and markets',
+        'Kenya technology and fintech',
+        'Kenyan sport and athletics',
+        'Kenyan culture and entertainment',
+        'Africa news',
+        'World news',
+      ],
     },
     {
       '@type': 'WebSite',
@@ -147,7 +150,7 @@ const organizationLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en-KE" className={`${display.variable} ${serif.variable} ${sans.variable}`}>
+    <html lang="en-KE" className={`${serif.variable} ${sans.variable}`}>
       <body>
         <SiteChrome>{children}</SiteChrome>
         <script

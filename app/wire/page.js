@@ -1,10 +1,13 @@
+import { after } from 'next/server'
 import { getWireArticles } from '@/lib/content'
 import { syncWire } from '@/lib/wire-sync'
-import { SITE_NAME } from '@/lib/site'
+import { SITE_NAME, siteUrl } from '@/lib/site'
 import StoryCard from '@/components/StoryCard'
 import styles from '@/app/inner.module.css'
 
-export const revalidate = 60
+// Render per request so opening the page runs a fresh wire sync.
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 
 export const metadata = {
   title: 'The wire — headlines from other newsrooms',
@@ -21,16 +24,52 @@ export const metadata = {
 }
 
 export default async function WirePage() {
-  try {
-    await syncWire()
-  } catch {
-    // Stored headlines still render if a feed is down.
-  }
+  // Refresh the wire after the response so opening the page is never blocked
+  // by a slow publisher feed.
+  after(() => syncWire().catch(() => {}))
 
   const items = await getWireArticles(60)
 
+  const collectionLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'The wire — headlines from other newsrooms',
+    description:
+      'Headlines from Kenyan and international newsrooms, published on-site and credited to the publisher that wrote them.',
+    url: `${siteUrl()}/wire`,
+    isPartOf: { '@id': `${siteUrl()}/#website` },
+    publisher: { '@id': `${siteUrl()}/#organization` },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: items.length,
+      itemListElement: items.slice(0, 60).map((article, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `${siteUrl()}/news/${article.slug}`,
+        name: article.title,
+      })),
+    },
+  }
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl() },
+      { '@type': 'ListItem', position: 2, name: 'The wire', item: `${siteUrl()}/wire` },
+    ],
+  }
+
   return (
     <div className="container page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <div>

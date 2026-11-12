@@ -7,10 +7,22 @@
   min-width: 0;
 }
 
+.card,
+.wide,
+.text {
+  transition: transform 0.2s var(--ease);
+}
+
+.card:hover,
+.wide:hover {
+  transform: translateY(-3px);
+}
+
 .media {
   position: relative;
   display: block;
   overflow: hidden;
+  border-radius: var(--radius-sm);
   background: var(--paper-3);
   aspect-ratio: 16 / 9;
 }
@@ -47,59 +59,68 @@
 }
 
 .body {
-  padding-top: 10px;
+  padding-top: 12px;
 }
 
 .kickerRow {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 6px;
+  gap: 6px;
+  margin-bottom: 8px;
 }
 
 .section {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 4px;
+  padding: 3px 7px;
   font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
   text-transform: uppercase;
-  color: var(--accent);
 }
 
 .section:hover {
-  color: var(--ink);
+  background: var(--accent-dark);
+  color: #fff;
   text-decoration: none;
 }
 
 .breaking {
   font-family: var(--sans);
   font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-weight: 800;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: var(--accent);
+  background: var(--ink);
   color: #fff;
-  padding: 2px 5px;
+  border-radius: 4px;
+  padding: 3px 6px;
 }
 
 .wireTag {
   font-family: var(--sans);
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   border: 1px solid var(--rule);
+  border-radius: 4px;
   color: var(--muted);
-  padding: 1px 5px;
+  padding: 2px 6px;
 }
 
 .headline {
   font-family: var(--serif);
   font-size: 20px;
-  font-weight: 600;
-  line-height: 1.16;
-  letter-spacing: -0.012em;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
   color: var(--ink);
   margin: 0;
   text-wrap: pretty;
@@ -113,9 +134,9 @@
 .dek {
   margin-top: 7px;
   font-family: var(--serif);
-  font-size: 14.5px;
-  line-height: 1.42;
-  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-soft);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -152,24 +173,33 @@
   font-weight: 600;
 }
 
-/* lead */
+/* lead — full-width image card with the headline laid over it */
+
+.lead {
+  position: relative;
+}
+
+.lead .media {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+}
 
 .lead .headline {
   font-family: var(--display);
-  font-size: clamp(34px, 4.4vw, 56px);
-  font-weight: 600;
-  line-height: 1.01;
-  letter-spacing: -0.022em;
+  font-size: clamp(30px, 4.2vw, 52px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
   margin-top: 2px;
 }
 
 .lead .dek {
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.45;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   margin-top: 10px;
-  max-width: 62ch;
+  max-width: 60ch;
 }
 
 .lead .meta {
@@ -178,17 +208,75 @@
 }
 
 .lead .body {
-  padding-top: 14px;
+  padding-top: 16px;
+}
+
+.lead:has(.media) .body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(18px, 3vw, 36px);
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 13, 0) 0%,
+    rgba(10, 10, 13, 0.5) 42%,
+    rgba(10, 10, 13, 0.88) 100%
+  );
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.lead:has(.media) .section {
+  background: #fff;
+  color: var(--accent);
+}
+
+.lead:has(.media) .wireTag {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+}
+
+.lead:has(.media) .breaking {
+  background: #fff;
+  color: var(--accent);
+}
+
+.lead:has(.media) .headline,
+.lead:has(.media) .headline a {
+  color: #fff;
+}
+
+.lead:has(.media) .headline a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.lead:has(.media) .dek {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.lead:has(.media) .meta {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.lead:has(.media) .authorName,
+.lead:has(.media) .sourceCredit {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.lead:has(.media) .metaDot {
+  background: rgba(255, 255, 255, 0.6);
 }
 
 /* wide — used for a section's lead card */
 
 .wide .headline {
   font-family: var(--display);
-  font-size: clamp(24px, 2.6vw, 32px);
-  font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.018em;
+  font-size: clamp(23px, 2.4vw, 30px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .wide .dek {
@@ -200,7 +288,7 @@
 
 .compact {
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-columns: 84px minmax(0, 1fr);
   gap: 12px;
   align-items: start;
 }
@@ -208,6 +296,7 @@
 .compact .media {
   grid-row: 1;
   aspect-ratio: 1 / 1;
+  border-radius: 6px;
 }
 
 .compact .body {
@@ -215,9 +304,9 @@
 }
 
 .compact .headline {
-  font-size: 16px;
-  line-height: 1.2;
-  font-weight: 600;
+  font-size: 15.5px;
+  line-height: 1.22;
+  font-weight: 700;
 }
 
 .compact .dek {
@@ -232,7 +321,8 @@
 
 .text .headline {
   font-size: 17px;
-  line-height: 1.22;
+  font-weight: 700;
+  line-height: 1.24;
 }
 
 .text .dek {
@@ -249,12 +339,14 @@
   font-family: var(--serif);
   font-size: 22px;
   font-style: italic;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.22;
 }
 
 .opinion .section {
-  color: var(--ink);
+  background: transparent;
+  color: var(--accent);
+  padding: 0;
 }
 
 .opinion .dek {
@@ -270,32 +362,34 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 18px;
-  border-top: 2px solid var(--ink);
-  padding-top: 12px;
-  margin: 46px 0 20px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 12px;
+  margin: 46px 0 22px;
 }
 
 .sectionTitleWrap {
   min-width: 0;
+  border-left: 4px solid var(--accent);
+  padding-left: 12px;
 }
 
 .sectionKicker {
   display: block;
   font-family: var(--sans);
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+  font-weight: 800;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .sectionTitle {
   font-family: var(--display);
   font-size: clamp(26px, 3vw, 34px);
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--ink);
   margin: 0;
 }
@@ -310,16 +404,19 @@
   font-family: var(--sans);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--muted);
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  padding: 6px 13px;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
 }
 
 .more:hover {
   color: var(--accent);
   border-color: var(--accent);
+  background: var(--accent-soft);
   text-decoration: none;
 }
 
@@ -420,7 +517,7 @@
    ============================================================ */
 
 .mostRead {
-  border-top: 3px solid var(--ink);
+  border-top: 4px solid var(--accent);
 }
 
 .mostReadTitle {
@@ -463,18 +560,18 @@
 
 .mostReadNum {
   font-family: var(--display);
-  font-size: 27px;
-  font-weight: 500;
+  font-size: 26px;
+  font-weight: 800;
   line-height: 0.85;
   color: var(--accent);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
 }
 
 .mostReadLink {
   font-family: var(--serif);
-  font-size: 15.5px;
-  font-weight: 600;
-  line-height: 1.25;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.26;
   color: var(--ink);
 }
 
@@ -1100,13 +1197,14 @@
   gap: 6px;
   background: var(--accent);
   color: #fff;
+  border-radius: var(--radius-pill);
   font-family: var(--sans);
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 6px 9px;
+  padding: 7px 11px;
 }
 
 .tickerPulse {

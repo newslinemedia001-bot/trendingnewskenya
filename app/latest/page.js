@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { after } from 'next/server'
 import { getAllArticles } from '@/lib/content'
 import { syncWire } from '@/lib/wire-sync'
 import {
@@ -10,7 +11,9 @@ import {
 } from '@/lib/site'
 import styles from '@/app/inner.module.css'
 
-export const revalidate = 60
+// Render per request so opening the page runs a fresh wire sync.
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 
 export const metadata = {
   title: 'Latest news from Kenya and the world',
@@ -37,11 +40,9 @@ const DATE_KEY = new Intl.DateTimeFormat('en-CA', {
 })
 
 export default async function LatestPage() {
-  try {
-    await syncWire()
-  } catch {
-    // Stored stories still render if a feed is down.
-  }
+  // Refresh the wire after the response so opening the page is never blocked
+  // by a slow publisher feed.
+  after(() => syncWire().catch(() => {}))
 
   const articles = await getAllArticles()
 
@@ -70,11 +71,24 @@ export default async function LatestPage() {
     })),
   }
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl() },
+      { '@type': 'ListItem', position: 2, name: 'Latest', item: `${siteUrl()}/latest` },
+    ],
+  }
+
   return (
     <div className={`container ${styles.page}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       <header className={styles.header}>

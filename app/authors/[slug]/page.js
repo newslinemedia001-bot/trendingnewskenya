@@ -52,11 +52,30 @@ export default async function AuthorPage({ params }) {
     },
   }
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl() },
+      { '@type': 'ListItem', position: 2, name: 'Writers', item: `${siteUrl()}/authors` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: author.name,
+        item: `${siteUrl()}/authors/${author.slug}`,
+      },
+    ],
+  }
+
   return (
     <div className={`container ${styles.page}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(profileLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       <div className={styles.profile}>

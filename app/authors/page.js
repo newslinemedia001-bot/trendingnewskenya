@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getAuthors } from '@/lib/content'
-import { SITE_NAME } from '@/lib/site'
+import { SITE_NAME, siteUrl } from '@/lib/site'
 import styles from '@/app/inner.module.css'
 
 export const revalidate = 3600
@@ -22,8 +22,51 @@ export const metadata = {
 export default async function AuthorsPage() {
   const authors = await getAuthors()
 
+  const collectionLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Writers and editors',
+    description:
+      'The journalists and editors of Trending News Kenya: who they are, what they cover and where their reporting appears.',
+    url: `${siteUrl()}/authors`,
+    isPartOf: { '@id': `${siteUrl()}/#website` },
+    publisher: { '@id': `${siteUrl()}/#organization` },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: authors.length,
+      itemListElement: authors.map((author, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `${siteUrl()}/authors/${author.slug}`,
+        item: {
+          '@type': 'Person',
+          name: author.name,
+          jobTitle: author.role,
+          url: `${siteUrl()}/authors/${author.slug}`,
+        },
+      })),
+    },
+  }
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl() },
+      { '@type': 'ListItem', position: 2, name: 'Writers', item: `${siteUrl()}/authors` },
+    ],
+  }
+
   return (
     <div className={`container ${styles.page}`}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <div>

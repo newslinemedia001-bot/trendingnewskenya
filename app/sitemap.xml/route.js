@@ -1,12 +1,14 @@
-import { getAllArticles, getAllSections, getAuthors } from '@/lib/content'
+import { getAllArticles, getAllSections, getAuthors, getTopics } from '@/lib/content'
 import { siteUrl } from '@/lib/site'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
 
 const PRIORITY = {
+  home: 1.0,
   article: 0.7,
   section: 0.6,
+  topic: 0.55,
   author: 0.4,
   static: 0.5,
 }
@@ -17,7 +19,7 @@ export async function GET() {
 
   // Static pages
   const staticRoutes = [
-    { url: base, priority: PRIORITY.static, lastmod: now },
+    { url: base, priority: PRIORITY.home, lastmod: now },
     { url: `${base}/latest`, priority: PRIORITY.static, lastmod: now },
     { url: `${base}/section/kenya`, priority: PRIORITY.section, lastmod: now },
     { url: `${base}/about`, priority: PRIORITY.static, lastmod: now },
@@ -27,6 +29,7 @@ export async function GET() {
     { url: `${base}/search`, priority: PRIORITY.static, lastmod: now },
     { url: `${base}/wire`, priority: PRIORITY.static, lastmod: now },
     { url: `${base}/newsletter`, priority: PRIORITY.static, lastmod: now },
+    { url: `${base}/authors`, priority: PRIORITY.static, lastmod: now },
   ]
 
   // Sections
@@ -35,6 +38,14 @@ export async function GET() {
     url: `${base}/section/${s.slug}`,
     priority: PRIORITY.section,
     lastmod: now,
+  }))
+
+  // Topics — the topical landing pages that build subject authority
+  const topics = await getTopics(300)
+  const topicRoutes = topics.map((t) => ({
+    url: `${base}/topic/${t.slug}`,
+    priority: PRIORITY.topic,
+    lastmod: new Date(t.latest?.publishedAt || t.latest?.updatedAt || now),
   }))
 
   // Authors
@@ -55,7 +66,13 @@ export async function GET() {
       lastmod: new Date(a.updatedAt || a.publishedAt),
     }))
 
-  const all = [...staticRoutes, ...sectionRoutes, ...authorRoutes, ...articleRoutes]
+  const all = [
+    ...staticRoutes,
+    ...sectionRoutes,
+    ...topicRoutes,
+    ...authorRoutes,
+    ...articleRoutes,
+  ]
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -73,7 +90,7 @@ export async function GET() {
 
   return new Response(xml, {
     headers: {
-      'Content-Type': 'application/xml',
+      'Content-Type': 'application/xml; charset=utf-8',
     },
   })
 }

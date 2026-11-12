@@ -2,6 +2,7 @@
   position: relative;
   z-index: 70;
   background: var(--paper);
+  border-top: 4px solid var(--accent);
 }
 
 /* ---------- utility bar ---------- */
@@ -11,7 +12,7 @@
 }
 
 .utilityInner {
-  height: 36px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,7 +26,7 @@
   font-family: var(--sans);
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
   white-space: nowrap;
@@ -56,9 +57,13 @@
   font-family: var(--sans);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
+}
+
+.utilityNav a {
+  transition: color 0.15s var(--ease);
 }
 
 .utilityNav a:hover {
@@ -73,35 +78,47 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 20px;
-  padding-top: clamp(16px, 2.4vw, 28px);
-  padding-bottom: clamp(14px, 2vw, 24px);
-  border-bottom: 1px solid var(--ink);
+  padding-top: clamp(18px, 2.6vw, 30px);
+  padding-bottom: clamp(16px, 2.2vw, 26px);
 }
 
 .mastSide {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 10px;
   font-family: var(--sans);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink);
 }
 
-.mastSub {
-  font-family: var(--serif);
-  font-size: 12px;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  text-transform: none;
-  color: var(--muted);
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 4px 9px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
-.mastRight {
-  text-align: right;
+.liveBadge .liveDot {
+  background: #fff;
+  width: 5px;
+  height: 5px;
+}
+
+.mastSub {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--muted);
 }
 
 .wordmark {
@@ -118,39 +135,50 @@
   text-decoration: none;
 }
 
-.wordTop {
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: clamp(30px, 5vw, 64px);
-  line-height: 0.94;
-  letter-spacing: -0.025em;
-  white-space: nowrap;
+.logoImg {
+  height: clamp(40px, 5.6vw, 66px);
+  width: auto;
+  max-width: clamp(144px, 24vw, 238px);
+  display: block;
 }
 
-.wordBottom {
+.mastRight {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 7px;
-  width: 100%;
+  justify-content: flex-end;
 }
 
-.wordKenya {
+.search {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  padding: 7px 14px;
   font-family: var(--sans);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.55em;
-  text-indent: 0.55em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
-  white-space: nowrap;
+  color: var(--ink);
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
 }
 
-.wordRule {
-  flex: 1;
-  height: 1px;
-  background: var(--ink);
-  opacity: 0.7;
+.search::before {
+  content: '';
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  box-shadow: 4px 4px 0 -2px currentColor;
+  transform: rotate(45deg);
+  transform-origin: center;
+  flex: none;
+}
+
+.search:hover {
+  border-color: var(--ink);
+  background: var(--paper-2);
+  text-decoration: none;
 }
 
 /* ---------- section nav ---------- */
@@ -159,26 +187,28 @@
   position: sticky;
   top: 0;
   z-index: 80;
-  background: var(--paper);
-  border-bottom: 1px solid var(--ink);
-  box-shadow: 0 1px 0 rgba(20, 19, 18, 0.04);
+  background: var(--paper-2);
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule);
 }
 
 .navInner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
+  min-height: 54px;
 }
 
 .nav {
   display: flex;
-  align-items: stretch;
-  gap: clamp(14px, 2vw, 24px);
+  align-items: center;
+  gap: 2px;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
   min-width: 0;
+  padding: 6px 0;
 }
 
 .nav::-webkit-scrollbar {
@@ -189,34 +219,32 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 13px 0 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
   font-family: var(--sans);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-soft);
   white-space: nowrap;
-  transition: color 0.15s var(--ease);
+  transition: color 0.15s var(--ease), background 0.15s var(--ease);
 }
 
 .navLink:hover {
-  color: var(--accent);
+  color: var(--ink);
+  background: #fff;
   text-decoration: none;
 }
 
 .navActive {
-  color: var(--ink);
+  color: var(--accent);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
 }
 
-.navActive::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 2px;
-  background: var(--accent);
+.navActive:hover {
+  color: var(--accent);
 }
 
 .briefing {
@@ -224,33 +252,42 @@
   align-items: center;
   gap: 7px;
   flex: none;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
   font-family: var(--sans);
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-weight: 800;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
-  padding-left: 20px;
-  border-left: 1px solid var(--rule);
   white-space: nowrap;
+  transition: background 0.15s var(--ease);
 }
 
 .briefing:hover {
-  color: var(--ink);
+  background: var(--accent-dark);
   text-decoration: none;
 }
 
 /* ---------- responsive ---------- */
 
 @media (max-width: 1000px) {
+  .masthead {
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+  }
+
   .mastSide {
     display: none;
   }
 
-  .masthead {
-    grid-template-columns: 1fr;
-    padding-top: 18px;
-    padding-bottom: 16px;
+  .wordmark {
+    justify-self: start;
+  }
+
+  .mastRight {
+    justify-self: end;
   }
 
   .briefing {
@@ -260,11 +297,12 @@
 
 @media (max-width: 720px) {
   .utilityInner {
-    height: 32px;
+    height: 34px;
   }
 
   .dateline time,
-  .edition {
+  .edition,
+  .dot {
     display: none;
   }
 
@@ -278,10 +316,6 @@
     color: var(--ink);
   }
 
-  .dateline .dot {
-    display: none;
-  }
-
   .utilityNav {
     gap: 14px;
   }
@@ -291,28 +325,35 @@
     display: none;
   }
 
-  .wordTop {
-    font-size: clamp(28px, 9vw, 40px);
+  .masthead {
+    padding-top: 16px;
+    padding-bottom: 14px;
   }
 
-  .wordBottom {
-    margin-top: 5px;
+  .logoImg {
+    height: clamp(32px, 8.5vw, 46px);
+    max-width: clamp(116px, 31vw, 166px);
   }
 
-  .wordKenya {
-    font-size: 9px;
-    letter-spacing: 0.45em;
-    text-indent: 0.45em;
+  .search {
+    padding: 7px 10px;
+    font-size: 0;
+    gap: 0;
+  }
+
+  .search::before {
+    width: 12px;
+    height: 12px;
   }
 
   .nav {
-    gap: 16px;
+    gap: 0;
     margin-right: -4px;
     padding-right: 12px;
   }
 
   .navLink {
-    padding: 12px 0 11px;
+    padding: 8px 10px;
     font-size: 10.5px;
   }
 }
