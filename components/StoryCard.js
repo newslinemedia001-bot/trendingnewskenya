@@ -54,7 +54,7 @@ export default function StoryCard({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={remoteImageUrl(article.image.src)}
-              alt=""
+              alt={article.image.alt || article.title}
               className={`${styles.mediaImg} ${styles.mediaImgFill}`}
               loading={priority ? 'eager' : 'lazy'}
               referrerPolicy="no-referrer"
@@ -64,7 +64,7 @@ export default function StoryCard({
           <Link href={href} className={styles.media} tabIndex={-1} aria-hidden="true">
             <Image
               src={article.image.src}
-              alt=""
+              alt={article.image.alt || article.title}
               fill
               sizes={imageSizes}
               className={styles.mediaImg}

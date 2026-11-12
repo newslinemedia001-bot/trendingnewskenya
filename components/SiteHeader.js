@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { datelineLong, todayKey } from '@/lib/site'
+import { SITE_NAME, datelineLong, todayKey } from '@/lib/site'
 import NavLinks from './NavLinks'
 import styles from './SiteHeader.module.css'
 
@@ -46,7 +46,7 @@ export default function SiteHeader() {
         <Link href="/" className={styles.wordmark} aria-label="Trending News Kenya — home">
           <Image
             src="/brand/logo-light.png"
-            alt=""
+            alt={SITE_NAME}
             width={1307}
             height={362}
             priority

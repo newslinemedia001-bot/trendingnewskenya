@@ -19,7 +19,7 @@ export default function SiteFooter() {
           <Link href="/" className={styles.wordmark} aria-label={`${SITE_NAME} — home`}>
             <Image
               src="/brand/logo.png"
-              alt=""
+              alt={SITE_NAME}
               width={1307}
               height={362}
               className={styles.logoImg}
