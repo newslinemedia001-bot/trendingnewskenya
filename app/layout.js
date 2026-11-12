@@ -29,6 +29,10 @@ export async function generateMetadata() {
 
   return {
     metadataBase: new URL(base),
+    // Google Search Console ownership check (URL-prefix property).
+    verification: {
+      google: '5WSxGUXb-MpJD_eyrEzbIgl2acpx6Ehz3tZmtlxmEOY',
+    },
     title: {
       default: `${SITE_NAME} — Kenya, Africa and the world`,
       template: `%s - ${SITE_NAME}`,
