@@ -1,6 +1,4 @@
-import { after } from 'next/server'
 import { articleImageUrl, getAllArticles } from '@/lib/content'
-import { syncWire } from '@/lib/wire-sync'
 import { siteUrl } from '@/lib/site'
 
 export const dynamic = 'force-dynamic'
@@ -23,9 +21,8 @@ function dateOf(value) {
 
 export async function GET() {
   const base = siteUrl()
-  // Refresh from the publisher feeds after sending, so a reader that polls
-  // only the feed still gets new headlines minutes after they land.
-  after(() => syncWire().catch(() => {}))
+  // Stored rows only: serving the feed never fetches a publisher feed or
+  // writes to the database.
   // Every published story goes in the feed, exactly as it appears on the site:
   // no paragraph filter, so short wire items are not held back.
   const articles = (await getAllArticles())

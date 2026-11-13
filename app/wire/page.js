@@ -1,11 +1,9 @@
-import { after } from 'next/server'
 import { getWireArticles } from '@/lib/content'
-import { syncWire } from '@/lib/wire-sync'
 import { SITE_NAME, siteUrl } from '@/lib/site'
 import StoryCard from '@/components/StoryCard'
 import styles from '@/app/inner.module.css'
 
-// Render per request so opening the page runs a fresh wire sync.
+// Render per request so the page always shows the stored archive as it is.
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
@@ -24,10 +22,7 @@ export const metadata = {
 }
 
 export default async function WirePage() {
-  // Refresh the wire after the response so opening the page is never blocked
-  // by a slow publisher feed.
-  after(() => syncWire().catch(() => {}))
-
+  // Stored rows only: a reader's visit never triggers a feed fetch or a write.
   const items = await getWireArticles(60)
 
   const collectionLd = {
@@ -81,8 +76,8 @@ export default async function WirePage() {
           </p>
         </div>
         <p className={styles.headerDek}>
-          Headlines from other publishers, refreshed automatically. Every story is stored here
-          and opens on this site with credit to the newsroom that wrote it.
+          Headlines from other publishers, collected by the desk. Every story is stored here and
+          opens on this site with credit to the newsroom that wrote it.
         </p>
       </header>
 

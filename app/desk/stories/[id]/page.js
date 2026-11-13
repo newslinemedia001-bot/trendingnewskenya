@@ -44,7 +44,6 @@ export default async function EditStoryPage({ params }) {
             <Link
               href={`/news/${story.slug}`}
               className={`${styles.btn} ${styles.btnPrimary}`}
-              target="_blank"
               rel="noreferrer"
             >
               View live

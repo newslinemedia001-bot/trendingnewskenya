@@ -10,7 +10,8 @@
     "lint": "eslint",
     "fetch:images": "node scripts/fetch-images.mjs",
     "staff:create": "node scripts/create-staff.mjs",
-    "content:purge": "node scripts/purge-seeded-content.mjs"
+    "content:purge": "node scripts/purge-seeded-content.mjs",
+    "wire:prune": "node scripts/prune-wire.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",

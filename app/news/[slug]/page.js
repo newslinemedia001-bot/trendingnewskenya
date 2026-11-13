@@ -244,14 +244,16 @@ export default async function ArticlePage({ params }) {
               />
             )}
           </div>
-          <figcaption>
-            <span>{article.image.caption || article.image.alt}</span>
-            {(article.wire || article.image.credit) && (
-              <span className={styles.credit}>
-                Photo: {article.wire ? article.source : article.image.credit}
-              </span>
-            )}
-          </figcaption>
+          {(article.image.caption || article.wire || article.image.credit) && (
+            <figcaption>
+              {article.image.caption && <span>{article.image.caption}</span>}
+              {(article.wire || article.image.credit) && (
+                <span className={styles.credit}>
+                  Photo: {article.wire ? article.source : article.image.credit}
+                </span>
+              )}
+            </figcaption>
+          )}
         </figure>
       )}
 

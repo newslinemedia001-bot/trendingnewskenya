@@ -1,23 +1,20 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import styles from './Stories.module.css'
 
-const CYCLE_MS = 6000
-
+/**
+ * The breaking bar: the latest headlines drift from right to left, so a reader
+ * sees every line without waiting for a rotation timer.
+ *
+ * The list is printed twice inside one track; the track slides a full half of
+ * its own width and then starts over, which is what makes the loop seamless.
+ * The second copy is hidden from assistive tech and taken out of the tab order
+ * so each headline is announced and reachable once. Motion pauses on hover and
+ * focus, and is disabled entirely for readers who ask for reduced motion.
+ */
 export default function BreakingBar({ items }) {
   const list = (items || []).filter((i) => i?.href && i?.title)
-  const [index, setIndex] = useState(0)
-
-  useEffect(() => {
-    if (list.length < 2) return
-    const timer = setInterval(() => setIndex((i) => i + 1), CYCLE_MS)
-    return () => clearInterval(timer)
-  }, [list.length])
-
   if (!list.length) return null
-  const current = list[index % list.length]
+  const track = [...list, ...list]
 
   return (
     <section className={styles.ticker} aria-label="Breaking news">
@@ -26,9 +23,24 @@ export default function BreakingBar({ items }) {
           <span className={styles.tickerPulse} aria-hidden="true" />
           Breaking
         </span>
-        <Link key={index} href={current.href} className={styles.tickerItem} aria-live="polite">
-          {current.title}
-        </Link>
+        <div className={styles.tickerViewport}>
+          <div className={styles.tickerTrack}>
+            {track.map((item, index) => {
+              const copy = index >= list.length
+              return (
+                <Link
+                  key={`${item.href}-${index}`}
+                  href={item.href}
+                  className={styles.tickerItem}
+                  aria-hidden={copy ? 'true' : undefined}
+                  tabIndex={copy ? -1 : undefined}
+                >
+                  {item.title}
+                </Link>
+              )
+            })}
+          </div>
+        </div>
         <Link href="/latest" className={styles.tickerMore}>
           All headlines <span aria-hidden="true">→</span>
         </Link>

@@ -188,7 +188,7 @@ export default function StoryEditor({ user, story, editable, deletable, canPubli
           {slug && !dirty ? (
             <>
               {' · '}
-              <Link href={`/news/${slug}`} target="_blank" rel="noreferrer">
+              <Link href={`/news/${slug}`} rel="noreferrer">
                 /news/{slug}
               </Link>
             </>

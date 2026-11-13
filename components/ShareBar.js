@@ -30,13 +30,7 @@ export default function ShareBar({ url, title }) {
     <div className={styles.share} aria-label="Share this story">
       <span className={styles.shareLabel}>Share</span>
       {links.map((link) => (
-        <a
-          key={link.label}
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.shareLink}
-        >
+        <a key={link.label} href={link.href} rel="noopener noreferrer" className={styles.shareLink}>
           {link.label}
         </a>
       ))}

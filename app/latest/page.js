@@ -1,7 +1,5 @@
 import Link from 'next/link'
-import { after } from 'next/server'
 import { getAllArticles } from '@/lib/content'
-import { syncWire } from '@/lib/wire-sync'
 import {
   SITE_NAME,
   dateline,
@@ -11,7 +9,7 @@ import {
 } from '@/lib/site'
 import styles from '@/app/inner.module.css'
 
-// Render per request so opening the page runs a fresh wire sync.
+// Render per request so the page always shows the stored archive as it is.
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
@@ -40,10 +38,7 @@ const DATE_KEY = new Intl.DateTimeFormat('en-CA', {
 })
 
 export default async function LatestPage() {
-  // Refresh the wire after the response so opening the page is never blocked
-  // by a slow publisher feed.
-  after(() => syncWire().catch(() => {}))
-
+  // Stored rows only: a reader's visit never triggers a feed fetch or a write.
   const articles = await getAllArticles()
 
   const groups = []
