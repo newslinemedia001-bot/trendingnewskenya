@@ -2,6 +2,9 @@
   command = "npm run build"
   publish = ".next"
 
+# Secret scanning stays ON: a build must fail rather than publish a key. The
+# omitted paths below are files that legitimately mention variable *names*
+# (package manifests, the env template) and can never hold a value.
 [build.environment]
   NODE_VERSION = "22"
   SECRETS_SCAN_OMIT_PATHS = "package.json, package-lock.json, .env.example, .netlify/, .next/"

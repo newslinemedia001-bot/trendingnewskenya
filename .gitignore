@@ -27,3 +27,15 @@ secrets/
 .tmp/
 .tmp-feed.xml
 screenshot-home.png
+
+# Page snapshots and API dumps from debugging sessions. They routinely contain
+# session cookies, tokens or account keys, and Netlify's secret scanner fails
+# the deploy when it finds one in the repository.
+/*.html
+/*.htm
+/*.json
+!/package.json
+!/package-lock.json
+
+# Throwaway scripts that print or hard-code credentials.
+scripts/_*.mjs
