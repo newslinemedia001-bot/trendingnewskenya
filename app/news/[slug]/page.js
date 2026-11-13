@@ -85,6 +85,12 @@ export default async function ArticlePage({ params }) {
   const url = `${siteUrl()}/news/${article.slug}`
   const sectionHref = `/section/${article.section}`
   const moreInSection = sectionMore.filter((a) => a.slug !== article.slug).slice(0, 4)
+  // "Read also" lines inside the body; related stories first, then the section.
+  const readAlso = [...related, ...moreInSection]
+    .filter((item) => item.slug !== article.slug)
+    .filter((item, index, list) => list.findIndex((other) => other.slug === item.slug) === index)
+    .slice(0, 2)
+    .map((item) => ({ title: item.title, href: item.href }))
   const minutes = readingTime(article.body)
   const wordCount = String(article.body || '')
     .replace(/<[^>]*>/g, ' ')
@@ -259,7 +265,7 @@ export default async function ArticlePage({ params }) {
 
       <div className={styles.layout}>
         <div className={styles.bodyWrap}>
-          <ArticleBody content={article.body} />
+          <ArticleBody content={article.body} readAlso={readAlso} />
 
           <div className={styles.tags}>
             <span className={styles.tagLabel}>Topics</span>
