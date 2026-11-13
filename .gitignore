@@ -24,3 +24,6 @@ _source/
 
 # Keys downloaded from the Firebase console live here and nowhere else.
 secrets/
+.tmp/
+.tmp-feed.xml
+screenshot-home.png
