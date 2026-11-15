@@ -83,6 +83,10 @@ export async function generateMetadata() {
       images: [ogImage],
     },
     formatDetection: { telephone: false, address: false, email: false },
+    // AdSense site ownership check.
+    other: {
+      'google-adsense-account': 'ca-pub-5672747362546507',
+    },
   }
 }
 
@@ -156,6 +160,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en-KE" className={`${serif.variable} ${sans.variable}`}>
       <body>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5672747362546507"
+          crossOrigin="anonymous"
+        />
         <SiteChrome>{children}</SiteChrome>
         <script
           type="application/ld+json"

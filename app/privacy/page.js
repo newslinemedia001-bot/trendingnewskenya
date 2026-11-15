@@ -26,9 +26,10 @@ export default function PrivacyPage() {
 
         <h2>Website visitors</h2>
         <p>
-          We do not track visitors, set cookies for advertising or collect IP addresses.
-          The site does not use analytics services of any kind. Your visit remains
-          anonymous.
+          We do not run analytics or profiling scripts and we do not collect IP
+          addresses ourselves. Your reading is anonymous as far as we are concerned.
+          The one exception is advertising, described under “Advertising” below, where
+          Google acts as an independent controller of the data it collects.
         </p>
 
         <h2>Newsletter subscribers</h2>
@@ -47,11 +48,34 @@ export default function PrivacyPage() {
           collected.
         </p>
 
+        <h2>Advertising</h2>
+        <p>
+          This site is supported by advertising served through Google AdSense. Google
+          and its partners may use cookies, including the DoubleClick cookie, and
+          device identifiers to serve ads based on your prior visits to this and other
+          websites. Those cookies are set by Google, not by us, and we receive only
+          aggregate reports — never your personal data.
+        </p>
+        <p>
+          You can opt out of personalised advertising at{' '}
+          <a href="https://adssettings.google.com" rel="nofollow noopener" target="_blank">
+            Google Ads Settings
+          </a>
+          , or opt out of third-party vendor cookies at{' '}
+          <a href="https://www.aboutads.info/choices" rel="nofollow noopener" target="_blank">
+            aboutads.info
+          </a>
+          . Readers in the European Economic Area, the United Kingdom and Switzerland are
+          shown a consent message before any personalised advertising cookie is set, and
+          can change that choice at any time.
+        </p>
+
         <h2>Cookies</h2>
         <p>
-          The site sets a single session cookie to remember a visitor's preferred text
-          size for the current session only. It expires when the browser closes. No
-          tracking, advertising or third-party cookies are set.
+          Apart from Google&apos;s advertising cookies described above, the site sets a
+          single session cookie to remember a visitor&apos;s preferred text size for the
+          current session only. It expires when the browser closes. We set no analytics
+          or tracking cookies of our own.
         </p>
 
         <h2>Data retention</h2>
