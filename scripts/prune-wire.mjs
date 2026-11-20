@@ -74,7 +74,7 @@ const db = createClient(String(url).replace(/\/+$/, ''), key, {
 async function readAll(select, apply = (query) => query) {
   const rows = []
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await apply(db.from('tnk_articles').select(select)).range(
+    const { data, error } = await apply(db.from('dkbn_articles').select(select)).range(
       from,
       from + 999
     )
@@ -187,7 +187,7 @@ for (const group of chunks(doomed, CHUNK)) {
     if (await deleteImage(doc)) imagesRemoved += 1
   }
   const { error } = await db
-    .from('tnk_articles')
+    .from('dkbn_articles')
     .delete()
     .in(
       'id',
@@ -201,7 +201,7 @@ for (const group of chunks(doomed, CHUNK)) {
 }
 
 const { count: wireLeft } = await db
-  .from('tnk_articles')
+  .from('dkbn_articles')
   .select('id', { count: 'exact', head: true })
   .eq('wire', true)
 

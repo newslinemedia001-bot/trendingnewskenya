@@ -198,16 +198,16 @@ async function upsertAll(table, rows) {
 }
 
 if (authors.length) {
-  const written = await upsertAll('tnk_authors', authors)
+  const written = await upsertAll('dkbn_authors', authors)
   console.log(`✓ bylines written: ${written}`)
 }
 
 const uniqueArticles = dedupe(articles)
-const written = await upsertAll('tnk_articles', uniqueArticles)
+const written = await upsertAll('dkbn_articles', uniqueArticles)
 console.log(`✓ stories written: ${written}`)
 
 const { count, error: countError } = await supabase
-  .from('tnk_articles')
+  .from('dkbn_articles')
   .select('id', { count: 'exact', head: true })
 
 if (countError) {

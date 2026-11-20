@@ -113,7 +113,7 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
 })
 
 const { data: existing, error: existingError } = await supabase
-  .from('tnk_users')
+  .from('dkbn_users')
   .select('id')
   .eq('email', email)
   .maybeSingle()
@@ -151,13 +151,13 @@ const byline = {
   updatedAt: now,
 }
 
-const { error: userError } = await supabase.from('tnk_users').insert(record)
+const { error: userError } = await supabase.from('dkbn_users').insert(record)
 if (userError) {
   console.error(`Could not create the account: ${userError.message}`)
   process.exit(1)
 }
 
-const { error: authorError } = await supabase.from('tnk_authors').upsert(byline, { onConflict: 'id' })
+const { error: authorError } = await supabase.from('dkbn_authors').upsert(byline, { onConflict: 'id' })
 if (authorError) {
   console.error(`Account created, but the byline failed: ${authorError.message}`)
   process.exit(1)
